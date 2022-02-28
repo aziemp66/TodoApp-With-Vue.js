@@ -8,7 +8,7 @@ async function loadTodos() {
     try {
         response = await fetch("http://localhost:3000/todos");
     } catch (error) {
-        alert("Something went wrong!");
+        alert("Server not reached");
         return;
     }
 
