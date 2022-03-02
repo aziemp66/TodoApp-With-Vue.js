@@ -1,6 +1,7 @@
 const TodosApp = {
     data() {
         return {
+            isLoading: false,
             todos: [],
             enteredTodoText: "",
             editedTodoId: null,
@@ -70,6 +71,28 @@ const TodosApp = {
             );
             this.todos.splice(todoIndex, 1);
         },
+    },
+    async created() {
+        let response;
+        this.isLoading = true;
+        try {
+            response = await fetch("http://localhost:3000/todos");
+        } catch (error) {
+            alert("Server not reached");
+            this.isLoading = false;
+            return;
+        }
+
+        if (!response.ok) {
+            alert("Something went wrong!");
+            this.isLoading = false;
+            return;
+        }
+
+        this.isLoading = false;
+
+        const responseData = await response.json();
+        this.todos = responseData.todos;
     },
 };
 
